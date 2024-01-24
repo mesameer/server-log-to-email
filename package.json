@@ -4,7 +4,7 @@
   "description": "",
   "main": "server-log-to-email.js",
   "scripts": {
-    "postinstall": "echo '/logs' >> ../../.gitignore",
+    "postinstall": "printf '\\n/logs' >> ../../.gitignore",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
