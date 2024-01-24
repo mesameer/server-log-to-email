@@ -148,7 +148,7 @@ const scheduler = async (executeAfterInSec = 60, mailSettings) => {
 
       console.log("Hourly mail sent");
     } catch (error) {
-      logger.error('Error sending logs via email', error);
+      console.error('Error sending logs via email', error);
     }
   });
 };
