@@ -1,0 +1,25 @@
+{
+  "name": "server-log-to-email",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-log-to-email.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mesameer/server-log-to-email.git"
+  },
+  "author": "Sameer Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mesameer/server-log-to-email/issues"
+  },
+  "homepage": "https://github.com/mesameer/server-log-to-email#readme",
+  "dependencies": {
+    "node-schedule": "^2.1.1",
+    "nodemailer": "^6.9.8",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  }
+}
