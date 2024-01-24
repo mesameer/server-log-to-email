@@ -1,10 +1,10 @@
 {
   "name": "server-log-to-email",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "server-log-to-email.js",
   "scripts": {
-    "postinstall": "echo '\n/logs' >> ../../.gitignore",
+    "postinstall": "echo '/logs' >> ../../.gitignore",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
