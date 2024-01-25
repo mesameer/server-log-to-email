@@ -103,19 +103,27 @@ const sendLogsByEmail = async (mailOptions, logs) => {
     },
   });
 
-  // Send the email
-  await transporter.sendMail({
+  let mailSettings = {
     from: mailOptions.user,
     to: mailOptions.to,
     subject: mailOptions.subject,
-    html: mailOptions.html,
-    attachments: [
+  };
+
+  if (logs.length) {
+    mailSettings.html = mailOptions.html;
+    mailSettings.attachments = [
       {
         filename: 'error_logs.json',
         content: JSON.stringify(logs, null, 2),
       },
-    ],
-  });
+    ];
+  }
+  else {
+    mailSettings.html = `No Logs found on the server.`;
+  }
+
+  // Send the email
+  await transporter.sendMail(mailSettings);
 }
 
 const logger = (executeAfterMin = 60, mailSettings) => {
@@ -151,7 +159,7 @@ const generateRecurrenceRule = (executeAfterMin) => {
     returnValue = `*/${Math.floor(executeAfterMin / 60 / 20)} * *`;
   }
 
-  console.log("🚀 ~ generateRecurrenceRule ~ returnValue:", returnValue)
+  // console.log("🚀 ~ generateRecurrenceRule ~ returnValue:", returnValue)
   return returnValue;
 };
 

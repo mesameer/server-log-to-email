@@ -3,10 +3,10 @@ const errorLogsToEmail = require("./server-log-to-email");
 const mailOptions = {
   user: 'user_email',
   pass: 'password',
-  to: 'to_user_email',
+  to: 'to_user_email_1,to_user_email_2',
   subject: 'Error Logs',
   html: `<p>Dear User,</p>
-  <p>Attached, you will find the error logs for the last hour in a neatly formatted JSON file.</p>
+  <p>Attached, you will find the error logs for the last 30 minutes in a neatly formatted JSON file.</p>
   <p>Please don't hesitate to contact us if you have any questions or concerns.</p>
   <p>Thank you!</p>`,
 };
