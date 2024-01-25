@@ -38,7 +38,7 @@ const fetchLogs = async (limit) => {
   // Implement logic to read logs from the daily rotated files for the last hour
   // Return an array of logs
   const currentTimestamp = new Date();
-  const limitAgo = new Date(currentTimestamp - limit * 1000);
+  const limitAgo = new Date(currentTimestamp - limit * 60 * 1000);
 
   // Read logs from the file and filter for the last hour
   const logs = await readLogsFromFile();
@@ -118,7 +118,7 @@ const sendLogsByEmail = async (mailOptions, logs) => {
   });
 }
 
-const logger = (executeAfterInSec = 60, mailSettings) => {
+const logger = (executeAfterMin = 60, mailSettings) => {
   const logger = winston.createLogger({
     format: format.combine(
       format.timestamp(),
@@ -133,17 +133,34 @@ const logger = (executeAfterInSec = 60, mailSettings) => {
   // logger.error("Error 1");
   // logger.error("Error 2");
 
-  scheduler(executeAfterInSec, mailSettings);
+  scheduler(executeAfterMin, mailSettings);
 
   return logger;
 };
 
-const scheduler = async (executeAfterInSec = 60, mailSettings) => {
+const generateRecurrenceRule = (executeAfterMin) => {
+  let returnValue = `*/1 * * *`;
+
+  if (executeAfterMin >= 1 && executeAfterMin <= 59) {
+    returnValue = `*/${Math.floor(executeAfterMin)} * * * *`;
+  }
+  else if (executeAfterMin >= 60 && executeAfterMin <= 1339) {
+    returnValue = `*/${Math.floor(executeAfterMin / 60)} * * *`;
+  }
+  else if (executeAfterMin >= 1440 && executeAfterMin <= 43200) {
+    returnValue = `*/${Math.floor(executeAfterMin / 60 / 20)} * *`;
+  }
+
+  console.log("🚀 ~ generateRecurrenceRule ~ returnValue:", returnValue)
+  return returnValue;
+};
+
+const scheduler = async (executeAfterMin = 60, mailSettings) => {
   // Schedule a job to run every hour
-  schedule.scheduleJob(`*/${executeAfterInSec} * * * * *`, async () => {
+  schedule.scheduleJob(generateRecurrenceRule(executeAfterMin), async () => {
     try {
       // Fetch and filter logs for the last hour
-      const logs = await fetchLogs(executeAfterInSec);
+      const logs = await fetchLogs(executeAfterMin);
 
       // Send logs via email
       await sendLogsByEmail(mailSettings, logs);
