@@ -67,24 +67,26 @@ const readLogsFromFile = async () => {
     // Read the entire contents of the log file
     const fileContents = fs.readFileSync(logFilePath, 'utf8').trim();
 
-    // Split the contents into JSON objects without newlines
-    const jsonObjects = fileContents.split('\n').map((obj) => {
-      // Add back the missing curly braces and parse each JSON object
-      const fullObject = obj.trim();
-      try {
-        return JSON.parse(fullObject);
-      } catch (error) {
-        // Handle parsing errors, if any
-        console.error('Error parsing log entry:', error, fullObject);
-        return null;
-      }
-    });
+    if (fileContents) {
+      // Split the contents into JSON objects without newlines
+      const jsonObjects = fileContents.split('\n').map((obj) => {
+        // Add back the missing curly braces and parse each JSON object
+        const fullObject = obj.trim();
+        try {
+          return JSON.parse(fullObject);
+        } catch (error) {
+          // Handle parsing errors, if any
+          console.error('Error parsing log entry:', error, fullObject);
+          return null;
+        }
+      });
 
-    // Filter out any potential null entries (failed parses)
-    const validLogs = jsonObjects.filter((log) => log !== null);
+      // Filter out any potential null entries (failed parses)
+      const validLogs = jsonObjects.filter((log) => log !== null);
 
-    // Add the parsed logs to the logs array
-    logs.push(...validLogs);
+      // Add the parsed logs to the logs array
+      logs.push(...validLogs);
+    }
   }
 
   return logs;
