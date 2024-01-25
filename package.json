@@ -1,6 +1,6 @@
 {
   "name": "server-log-to-email",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "",
   "main": "server-log-to-email.js",
   "scripts": {
